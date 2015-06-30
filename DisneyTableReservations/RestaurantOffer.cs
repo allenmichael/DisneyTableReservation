@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +49,37 @@ namespace DisneyTableReservations
                     Console.WriteLine(ex.ToString());
                 }
             }
+        }
+
+        public RestaurantOffer(String restaurantId, DateTime serviceDate, String offerLink, String restApiUrl)
+        {
+            RestaurantId = restaurantId;
+            ServiceDate = serviceDate;
+            OfferLink = offerLink;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(restApiUrl + restaurantId);
+            request.Method = "GET";
+            try
+            {
+                WebResponse response = request.GetResponse();
+                response = (HttpWebResponse)response;
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream, Encoding.Default);
+
+                string responseFromServer = reader.ReadToEnd();
+
+                reader.Close();
+                responseStream.Close();
+                response.Close();
+
+                Console.WriteLine(responseFromServer);
+                _restaurantName = responseFromServer;
+            }
+            catch (WebException err)
+            {
+                Console.WriteLine(err.Message);
+            }
+
         }
     }
 }

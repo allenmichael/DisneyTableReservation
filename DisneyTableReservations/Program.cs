@@ -34,10 +34,6 @@ namespace DisneyTableReservations
 
             Console.WriteLine("Press Enter to exit.");
             Console.Read();
-            /*
-            DisneyPostRequest request = new DisneyPostRequest("https://api.wdpro.disney.go.com/availability-service/destinations/80007798/grouped-table-service-availability", token, "2", "dinner", "2015-11-17");
-            Console.WriteLine(request.ResponseMessage);
-             */
                         
         }
     }

@@ -65,7 +65,11 @@ namespace DisneyTableReservations
                                     serviceDate = serviceDate.AddHours(1);
                                     String offerLink = (String)service.SelectToken("links").SelectToken("self").SelectToken("href");
 
-                                    RestaurantOffer uniqueOffer = new RestaurantOffer(restaurantId, serviceDate, offerLink);
+                                    //Use this constructor for REST API call to resolve restaurant name
+                                    RestaurantOffer uniqueOffer = new RestaurantOffer(restaurantId, serviceDate, offerLink, "http://amburger.com/disneyrestaurants/?id=");
+                                    
+                                    //Use this constructor for local database call to resolve restaurant name
+                                    //RestaurantOffer uniqueOffer = new RestaurantOffer(restaurantId, serviceDate, offerLink);
 
                                     RestaurantIdsWithOffers.Add(uniqueOffer);
 
