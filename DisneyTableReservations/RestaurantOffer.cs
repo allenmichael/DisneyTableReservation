@@ -21,29 +21,31 @@ namespace DisneyTableReservations
             OfferLink = offerLink;
             
             string connStr = "server=localhost;user=root;port=3306;password=password;database=disneyrestaurants";
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try
+            using (MySqlConnection conn = new MySqlConnection(connStr))
             {
-                Console.WriteLine("Connecting to MySQL...");
-                conn.Open();
-                String query = "SELECT restaurant_name FROM restaurants WHERE id='" + restaurantId + "'";
-                MySqlCommand cmd = new MySqlCommand();
-
-                cmd.CommandText = query;
-                cmd.Connection = conn;
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
+                try
                 {
-                    _restaurantName = (String)rdr[0];
-                }
-                rdr.Close();
-                conn.Close();
+                    Console.WriteLine("Connecting to MySQL...");
+                    conn.Open();
+                    String query = "SELECT restaurant_name FROM restaurants WHERE id='" + restaurantId + "'";
+                    MySqlCommand cmd = new MySqlCommand();
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                    cmd.CommandText = query;
+                    cmd.Connection = conn;
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        _restaurantName = (String)rdr[0];
+                    }
+                    rdr.Close();
+                    conn.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
         }
     }
